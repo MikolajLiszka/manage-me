@@ -1,39 +1,29 @@
 <div class="container">
     <div class="header">
-        <h1>Projects</h1>
-        <button class="btn btn-add-project" (click)="onAddProject()">Create new project</button>
+      <h1>Projects</h1>
+      <button class="btn btn-add-project">Create new project</button>
     </div>
     <table>
-        <thead>
-          <tr>
-            <th>Imię</th>
-            <th>Numer telefonu</th>
-            <th>Email</th>
-            <th>Adres</th>
-            <th>Akcje</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Jan Kowalski</td>
-            <td>123456789</td>
-            <td>jan.kowalski@example.com</td>
-            <td>ul. Przykładowa 123, Warszawa</td>
-            <td>
-              <button>Edytuj</button>
-              <button>Usuń</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Anna Nowak</td>
-            <td>987654321</td>
-            <td>anna.nowak@example.com</td>
-            <td>ul. Testowa 456, Kraków</td>
-            <td>
-              <button>Edytuj</button>
-              <button>Usuń</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-</div>
+      <thead>
+        <tr>
+          <th>Imię</th>
+          <th>Numer telefonu</th>
+          <th>Email</th>
+          <th>Adres</th>
+          <th>Akcje</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let project of projects">
+          <td>{{ project.name }}</td>
+          <td>{{ project.cellphone }}</td>
+          <td>{{ project.email }}</td>
+          <td>{{ project.address }}</td>
+          <td>
+            <button (click)="deleteProject(project.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

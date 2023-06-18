@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Project } from 'src/app/models/project.model';
+import { ProjectService } from 'src/app/services/project.service'
 
 @Component({
   selector: 'app-new-projects',
@@ -6,18 +8,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./new-projects.component.scss']
 })
 export class NewProjectsComponent {
+  projects: Project[] = [];
 
-    onAddProject() {
-      const notNull = document.getElementById('studentModel');
-      if (notNull != null) {
-        notNull.style.display = 'block'
-      }
-    }
+  // ngOnInit() {
+  //   const storedProjects = localStorage['project'];
+  //   if (storedProjects) {
+  //     this.projects = JSON.parse(storedProjects);
+  //   }
+  // }
+  constructor(private projectService: ProjectService) {
+    this.projects = projectService.getAllProjects();
+  }
 
-    // onCloseProject() {
-    //   const notNull = document.getElementById('studentModel');
-    //   if (notNull != null) {
-    //     notNull.style.display = 'none'
-    //   }
-    // }
+  deleteProject(id: number): void {
+    this.projectService.deleteProject(id);
+    this.projects = this.projectService.getAllProjects();
+  }
+
 }
