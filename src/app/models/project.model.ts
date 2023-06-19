@@ -1,7 +1,8 @@
-export interface Project {
-    id: number;
-    name: string;
-    cellphone: number;
-    email: string;
-    address: string;
+export class Project {
+
+    constructor(
+        public id: number = 0,
+        public name: string = '',
+        public description: string = '',
+      ) {}
 }

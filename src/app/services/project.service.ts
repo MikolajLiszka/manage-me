@@ -1,3 +1,5 @@
+
+
 import { Injectable } from '@angular/core';
 import { Project } from '../models/project.model';
 
@@ -7,6 +9,10 @@ import { Project } from '../models/project.model';
 export class ProjectService {
   private projects: Project[] = [];
 
+  getProjects(): Project[] {
+    return this.projects;
+  }
+
   getAllProjects(): Project[] {
     return this.projects;
   }
@@ -15,14 +21,8 @@ export class ProjectService {
     this.projects.push(project);
   }
 
-  updateProject(project: Project): void {
-    const index = this.projects.findIndex(p => p.id === project.id);
-    if (index !== -1) {
-      this.projects[index] = project;
-    }
-  }
-
   deleteProject(id: number): void {
     this.projects = this.projects.filter(p => p.id !== id);
-  }
+    }
 }
+

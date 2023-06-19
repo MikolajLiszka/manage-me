@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Project } from 'src/app/models/project.model';
-import { ProjectService } from 'src/app/services/project.service'
-
+import { Project } from '../../models/project.model';
+import { ProjectService } from '../../services/project.service';
 
 @Component({
   selector: 'app-new-project-form',
@@ -9,13 +8,12 @@ import { ProjectService } from 'src/app/services/project.service'
   styleUrls: ['./new-project-form.component.scss']
 })
 export class NewProjectFormComponent {
-  project: Project = new Project();
+  project: Project = new Project(0, '', ''); 
 
-  constructor(private projectService: ProjectService) { }
+  constructor(private projectService: ProjectService) {}
 
-  addProject(): void {
-    this.projectService.addProject(this.project);
-    this.project = new Project(); 
+  addProject() {
+    this.projectService.addProject(this.project); 
+    this.project = new Project(0, '', ''); 
   }
 }
-
