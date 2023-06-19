@@ -16,6 +16,7 @@ export class NewProjectsComponent {
   //     this.projects = JSON.parse(storedProjects);
   //   }
   // }
+
   constructor(private projectService: ProjectService) {
     this.projects = projectService.getAllProjects();
   }
