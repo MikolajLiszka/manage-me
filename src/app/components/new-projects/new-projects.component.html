@@ -1,7 +1,8 @@
-<div class="container">
+
+  <div class="container">
     <div class="header">
-      <h1>Projects</h1>
-      <button class="btn btn-add-project">Create new project</button>
+      <h1>Manage.me</h1>
+      <button (click)="toggleForm()">Create new project</button>
     </div>
     <table>
       <thead>
@@ -16,9 +17,20 @@
           <td>{{ project.description }}</td>
           <td>
             <button (click)="deleteProject(project.id)">Delete</button>
+            <button (click)="projectDetails(project.id)">           
+              <a [routerLink]="['/projects', project.id]">View Details</a>
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
+  
+    <div *ngIf="showForm">
+      <form (ngSubmit)="addProject(newProject)">
+        <input id="name" [(ngModel)]="newProject.name" name="name" required>
+        <input id="description" [(ngModel)]="newProject.description" name="description" required>
+        <button type="submit">Add Project</button>
+      </form>
+    </div>
   </div>
   
