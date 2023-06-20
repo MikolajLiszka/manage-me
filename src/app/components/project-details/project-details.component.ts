@@ -9,7 +9,7 @@ import { Project } from 'src/app/models/project.model';
   styleUrls: ['./project-details.component.scss']
 })
 export class ProjectDetailsComponent implements OnInit {
-  project!: Project;
+  project !: Project;
 
   constructor(private route: ActivatedRoute, private projectService: ProjectService) { }
 
@@ -19,4 +19,13 @@ export class ProjectDetailsComponent implements OnInit {
       this.project = this.projectService.getProjectById(projectId) || {} as Project;
     });
   }
+
+  get projects(): Project[] {
+    return this.projectService.getAllProjects();
+  }
+
+  projectDetails(projectId: number): void {
+    this.projectService.projectDetails(projectId);
+  }
 }
+

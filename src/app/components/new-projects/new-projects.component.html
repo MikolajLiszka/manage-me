@@ -17,9 +17,7 @@
           <td>{{ project.description }}</td>
           <td>
             <button (click)="deleteProject(project.id)">Delete</button>
-            <button (click)="projectDetails(project.id)">           
-              <a [routerLink]="['/projects', project.id]">View Details</a>
-            </button>
+            <button (click)="projectDetails(project.id)">Details</button>
           </td>
         </tr>
       </tbody>

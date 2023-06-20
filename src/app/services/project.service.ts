@@ -42,10 +42,10 @@ export class ProjectService {
   }
 
   projectDetails(projectId: number): void {
-    this.router.navigate(['/projects', projectId]);
+    this.router.navigate(['/project-details', projectId]);
   }
 
-  private generateUniqueId(): number {
+  generateUniqueId(): number {
     this.projectIdCounter++;
     const projects = this.getAllProjects();
   
@@ -53,11 +53,10 @@ export class ProjectService {
     while (projects.some(project => project.id === uniqueId)) {
       uniqueId++;
     }
-  
     return uniqueId;
   }
 
-  private saveProjectsToLocalStorage(projects: Project[]): void {
+  saveProjectsToLocalStorage(projects: Project[]): void {
     localStorage.setItem('projects', JSON.stringify(projects));
   }
 }
