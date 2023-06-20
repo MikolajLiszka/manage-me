@@ -1,4 +1,4 @@
-
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Project } from '../models/project.model';
 
@@ -8,7 +8,7 @@ import { Project } from '../models/project.model';
 export class ProjectService {
   private projectIdCounter: number = 0;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   getProjects(): Project[] {
     return this.getAllProjects();
@@ -42,12 +42,19 @@ export class ProjectService {
   }
 
   projectDetails(projectId: number): void {
-    // You can add the routing logic here
+    this.router.navigate(['/projects', projectId]);
   }
 
   private generateUniqueId(): number {
     this.projectIdCounter++;
-    return this.projectIdCounter;
+    const projects = this.getAllProjects();
+  
+    let uniqueId = this.projectIdCounter;
+    while (projects.some(project => project.id === uniqueId)) {
+      uniqueId++;
+    }
+  
+    return uniqueId;
   }
 
   private saveProjectsToLocalStorage(projects: Project[]): void {
