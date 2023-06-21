@@ -1,4 +1,4 @@
-import { Funcionality } from 'src/app/models/funcionality.model';
+import { Functionality } from 'src/app/models/functionality.model';
 
 export class Project {
 
@@ -6,6 +6,6 @@ export class Project {
         public id: number = 0,
         public name: string = '',
         public description: string = '',
-        public functionalities: Funcionality[] = [],
+        public functionalities: Functionality[] = [],
       ) {}
 }

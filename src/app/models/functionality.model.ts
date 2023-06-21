@@ -1,4 +1,4 @@
-export class Funcionality {
+export class Functionality {
 
     constructor(
       public id: number = 0,

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from 'src/app/services/project.service';
 import { Project } from 'src/app/models/project.model';
 import { Router } from '@angular/router';
-import { Funcionality } from 'src/app/models/funcionality.model';
+import { Functionality } from 'src/app/models/functionality.model';
 
 @Component({
   selector: 'app-project-details',
@@ -11,23 +11,41 @@ import { Funcionality } from 'src/app/models/funcionality.model';
   styleUrls: ['./project-details.component.scss']
 })
 export class ProjectDetailsComponent implements OnInit {
-  project !: Project;
+  project: Project | undefined;
   projectName: string = '';
-  functionalities: Funcionality[] = [];
+  functionalities: Functionality[] = [];
+  showFunctionalityForm: boolean = false;
+  newFunctionality: Functionality = new Functionality();
 
   constructor(private route: ActivatedRoute, private projectService: ProjectService, private router: Router) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const projectId = +params.get('id')!;
-      this.project = this.projectService.getProjectById(projectId) || {} as Project;
-      this.projectName = 'Nazwa projektu';
-      this.functionalities = this.projectService.getFuncionalitiesByProject(this.projectName);
+      this.project = this.projectService.getProjectById(projectId);
+      if (this.project) {
+        this.projectName = this.project.name;
+        this.getFunctionalities();
+      }
     });
   }
 
-    get projects(): Project[] {
-    return this.projectService.getAllProjects();
+  toggleFunctionalityForm() {
+    this.showFunctionalityForm = !this.showFunctionalityForm;
+  }
+
+  createFunctionality() {
+    if (this.project && this.newFunctionality.name && this.newFunctionality.description) {
+      this.newFunctionality.projectId = this.project.id;
+      this.projectService.addFunctionalityToProject(this.projectName, this.newFunctionality);
+      this.newFunctionality = new Functionality();
+      this.showFunctionalityForm = false;
+      this.getFunctionalities(); 
+    }
+  }
+
+  getFunctionalities() {
+    this.functionalities = this.projectService.getFunctionalitiesByProject(this.projectName);
   }
 
   projectDetails(projectId: number): void {
@@ -37,9 +55,4 @@ export class ProjectDetailsComponent implements OnInit {
   goBack() {
     this.router.navigate(['/projects']);
   }
-
-  addFuncionality(funcionality: Funcionality) {
-    this.projectService.addFuncionalityToProject(this.projectName, funcionality);
-  }
 }
-

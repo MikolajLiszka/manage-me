@@ -1,15 +1,21 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Project } from '../models/project.model';
-import { Funcionality } from '../models/funcionality.model';
+import { Functionality } from '../models/functionality.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
   private projectIdCounter: number = 0;
+  private projects: Project[] = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    const savedProjects = localStorage.getItem('projects');
+    if (savedProjects) {
+      this.projects = JSON.parse(savedProjects);
+    }
+  }
 
   getProjects(): Project[] {
     return this.getAllProjects();
@@ -66,23 +72,45 @@ export class ProjectService {
     return uniqueId;
   }
 
+  addFunctionalityToProject(projectName: string, functionality: Functionality): void {
+    const project = this.projects.find(project => project.name === projectName);
+    if (project) {
+      functionality.id = this.generateUniqueId();
+      if (!project.functionalities) {
+        project.functionalities = []; // Initialize the functionalities array if it is undefined
+      }
+      project.functionalities.push(functionality);
+      this.saveProjectsToLocalStorage(this.projects);
+    }
+  }
+
+  // deleteFuncionality(projectId: number, functionalityId: number): void {
+  //   const project = this.getProjectById(projectId);
+  //   if (project) {
+  //     project.functionalities = project.functionalities.filter(func => func.id !== functionalityId);
+  //     this.saveProjectsToLocalStorage();
+  //   }
+  // }
+
+  // updateFuncionality(projectId: number, functionality: Funcionality): void {
+  //   const project = this.getProjectById(projectId);
+  //   if (project) {
+  //     const index = project.functionalities.findIndex(func => func.id === functionality.id);
+  //     if (index !== -1) {
+  //       project.functionalities[index] = functionality;
+  //       this.saveProjectsToLocalStorage();
+  //     }
+  //   }
+  // }
+
   saveProjectsToLocalStorage(projects: Project[]): void {
     localStorage.setItem('projects', JSON.stringify(projects));
   }
 
-  addFuncionalityToProject(projectName: string, funcionality: Funcionality): void {
-    const projects = this.getProjects();
-    const project = projects.find(p => p.name === projectName);
-    if (project) {
-      project.functionalities.push(funcionality);
-      this.saveProjectsToLocalStorage(projects);
-    }
-  }
-
-  getFuncionalitiesByProject(projectName: string): Funcionality[] {
-    const projects = this.getProjects();
-    const project = projects.find(p => p.name === projectName);
+  getFunctionalitiesByProject(projectName: string): Functionality[] {
+    const project = this.projects.find(project => project.name === projectName);
     return project ? project.functionalities : [];
   }
+
 }
 
