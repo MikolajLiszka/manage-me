@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Project } from 'src/app/models/project.model';
-import { ProjectService } from 'src/app/services/project.service'
+import { ProjectService } from 'src/app/services/project.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './new-projects.component.html',
   styleUrls: ['./new-projects.component.scss']
 })
-export class NewProjectsComponent {
+export class NewProjectsComponent implements OnInit {
   projects: Project[] = [];
   showForm: boolean = false;
   newProject: Project = {
@@ -16,6 +16,7 @@ export class NewProjectsComponent {
     name: '',
     description: ''
   };
+  selectedProject: Project | undefined;
 
   constructor(private projectService: ProjectService, private router: Router) {}
 
@@ -47,4 +48,16 @@ export class NewProjectsComponent {
     this.projectService.projectDetails(projectId);
   }
 
+  editProject(project: Project) {
+    this.selectedProject = project;
+    this.showForm = true;
+  }
+
+  updateProject() {
+    if (this.selectedProject) {
+      this.projectService.editProject(this.selectedProject);
+      this.selectedProject = undefined;
+      this.showForm = false;
+    }
+  }
 }

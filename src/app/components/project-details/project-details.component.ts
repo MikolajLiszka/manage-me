@@ -20,7 +20,7 @@ export class ProjectDetailsComponent implements OnInit {
     });
   }
 
-  get projects(): Project[] {
+    get projects(): Project[] {
     return this.projectService.getAllProjects();
   }
 

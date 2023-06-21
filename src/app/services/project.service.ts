@@ -41,6 +41,15 @@ export class ProjectService {
     this.saveProjectsToLocalStorage(projects);
   }
 
+  editProject(project: Project): void {
+    const projects = this.getAllProjects();
+    const index = projects.findIndex(p => p.id === project.id);
+    if (index !== -1) {
+      projects[index] = project;
+      this.saveProjectsToLocalStorage(projects);
+    }
+  }
+
   projectDetails(projectId: number): void {
     this.router.navigate(['/project-details', projectId]);
   }
