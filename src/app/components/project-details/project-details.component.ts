@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from 'src/app/services/project.service';
 import { Project } from 'src/app/models/project.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project-details',
@@ -11,7 +12,7 @@ import { Project } from 'src/app/models/project.model';
 export class ProjectDetailsComponent implements OnInit {
   project !: Project;
 
-  constructor(private route: ActivatedRoute, private projectService: ProjectService) { }
+  constructor(private route: ActivatedRoute, private projectService: ProjectService, private router: Router) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -26,6 +27,10 @@ export class ProjectDetailsComponent implements OnInit {
 
   projectDetails(projectId: number): void {
     this.projectService.projectDetails(projectId);
+  }
+
+  goBack() {
+    this.router.navigate(['/projects']);
   }
 }
 

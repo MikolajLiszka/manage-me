@@ -30,12 +30,12 @@
       <button type="submit">Add Project</button>
     </form>
     <form *ngIf="selectedProject" (ngSubmit)="updateProject()">
-      <label for="name">Name:</label>
+      <label for="name">Nazwa projektu:</label>
       <input id="name" [(ngModel)]="selectedProject.name" name="name" required>
-      <label for="description">Description:</label>
+      <label for="description">Opis projektu:</label>
       <input id="description" [(ngModel)]="selectedProject.description" name="description" required>
-      <button type="submit">Update Project</button>
-      <button type="button" (click)="showForm = false">Cancel</button>
+      <button type="submit">Edytuj</button>
+      <button type="button" (click)="showForm = false">Anuluj</button>
     </form>
   </div>
 </div>
