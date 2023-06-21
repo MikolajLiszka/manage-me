@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from 'src/app/services/project.service';
 import { Project } from 'src/app/models/project.model';
 import { Router } from '@angular/router';
+import { Funcionality } from 'src/app/models/funcionality.model';
 
 @Component({
   selector: 'app-project-details',
@@ -11,6 +12,8 @@ import { Router } from '@angular/router';
 })
 export class ProjectDetailsComponent implements OnInit {
   project !: Project;
+  projectName: string = '';
+  functionalities: Funcionality[] = [];
 
   constructor(private route: ActivatedRoute, private projectService: ProjectService, private router: Router) { }
 
@@ -18,6 +21,8 @@ export class ProjectDetailsComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const projectId = +params.get('id')!;
       this.project = this.projectService.getProjectById(projectId) || {} as Project;
+      this.projectName = 'Nazwa projektu';
+      this.functionalities = this.projectService.getFuncionalitiesByProject(this.projectName);
     });
   }
 
@@ -31,6 +36,10 @@ export class ProjectDetailsComponent implements OnInit {
 
   goBack() {
     this.router.navigate(['/projects']);
+  }
+
+  addFuncionality(funcionality: Funcionality) {
+    this.projectService.addFuncionalityToProject(this.projectName, funcionality);
   }
 }
 

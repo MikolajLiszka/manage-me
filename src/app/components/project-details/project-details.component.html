@@ -4,7 +4,13 @@
     <h3>{{ project.name }}</h3>
     <p>{{ project.description }}</p>
 
+    <h3>Functionalities:</h3>
+    <ul>
+        <li *ngFor="let functionality of functionalities">
+            {{ functionality.name }}
+        </li>
+    </ul>
+
     <button (click)="goBack()">Powrót do projektów</button>
 </div>
 
-<!-- <button (click)="goBack()">Go Back</button> -->

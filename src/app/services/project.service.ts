@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Project } from '../models/project.model';
+import { Funcionality } from '../models/funcionality.model';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +68,21 @@ export class ProjectService {
 
   saveProjectsToLocalStorage(projects: Project[]): void {
     localStorage.setItem('projects', JSON.stringify(projects));
+  }
+
+  addFuncionalityToProject(projectName: string, funcionality: Funcionality): void {
+    const projects = this.getProjects();
+    const project = projects.find(p => p.name === projectName);
+    if (project) {
+      project.functionalities.push(funcionality);
+      this.saveProjectsToLocalStorage(projects);
+    }
+  }
+
+  getFuncionalitiesByProject(projectName: string): Funcionality[] {
+    const projects = this.getProjects();
+    const project = projects.find(p => p.name === projectName);
+    return project ? project.functionalities : [];
   }
 }
 

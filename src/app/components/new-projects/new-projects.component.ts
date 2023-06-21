@@ -14,7 +14,8 @@ export class NewProjectsComponent implements OnInit {
   newProject: Project = {
     id: 0,
     name: '',
-    description: ''
+    description: '',
+    functionalities: []
   };
   selectedProject: Project | undefined;
 
@@ -35,7 +36,8 @@ export class NewProjectsComponent implements OnInit {
     this.newProject = {
       id: 0,
       name: '',
-      description: ''
+      description: '',
+      functionalities: []
     };
   }
 
