@@ -68,6 +68,7 @@ export class ProjectDetailsComponent implements OnInit {
       }
     }
   }
+
   
   updateFunctionality(projectId: number, functionality: Functionality): void {
     if (this.project) {
@@ -95,6 +96,7 @@ export class ProjectDetailsComponent implements OnInit {
       }
     }
   }
+
 
   cancelEditFunctionality() {
     this.editFunctionality = {

@@ -65,14 +65,27 @@ export class ProjectService {
     this.router.navigate(['/functionality-details', functionalityId]);
   }
 
+  // generateUniqueId(): number {
+  //   this.projectIdCounter++;
+  //   const projects = this.getAllProjects();
+  
+  //   let uniqueId = this.projectIdCounter;
+  //   while (projects.some(project => project.id === uniqueId)) {
+  //     uniqueId++;
+  //   }
+  //   return uniqueId;
+  // }
+
   generateUniqueId(): number {
-    this.projectIdCounter++;
+    const timestamp = new Date().getTime();
+    const random = Math.floor(Math.random() * 1000);
+    const uniqueId = parseInt(`${timestamp}${random}`);
     const projects = this.getAllProjects();
   
-    let uniqueId = this.projectIdCounter;
-    while (projects.some(project => project.id === uniqueId)) {
-      uniqueId++;
+    if (projects.some(project => project.id === uniqueId)) {
+      return this.generateUniqueId();
     }
+  
     return uniqueId;
   }
 
@@ -81,7 +94,7 @@ export class ProjectService {
     if (project) {
       functionality.id = this.generateUniqueId();
       if (!project.functionalities) {
-        project.functionalities = []; // Initialize the functionalities array if it is undefined
+        project.functionalities = [];
       }
       project.functionalities.push(functionality);
       this.saveProjectsToLocalStorage(this.projects);
