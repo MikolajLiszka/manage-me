@@ -99,6 +99,17 @@ export class ProjectService {
       this.saveProjectsToLocalStorage(this.projects);
     }
   }
+
+  editFunctionality(projectId: number, functionality: Functionality): void {
+    const project = this.getProjectById(projectId);
+    if (project) {
+      const functionalityIndex = project.functionalities.findIndex(func => func.id === functionality.id);
+      if (functionalityIndex !== -1) {
+        project.functionalities[functionalityIndex] = functionality;
+        this.saveProjectsToLocalStorage(this.projects);
+      }
+    }
+  }
   
 
   saveProjectsToLocalStorage(projects: Project[]): void {

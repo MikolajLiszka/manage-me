@@ -15,7 +15,17 @@ export class ProjectDetailsComponent implements OnInit {
   projectName: string = '';
   functionalities: Functionality[] = [];
   showFunctionalityForm: boolean = false;
+  showEditFunctionalityForm: boolean = false;
   newFunctionality: Functionality = new Functionality();
+  editFunctionality: Functionality = {
+    id: 0,
+    name: '',
+    description: '',
+    priority: 0,
+    projectId: 0,
+    owner: '',
+    state: ''
+  };
 
   constructor(private route: ActivatedRoute, private projectService: ProjectService, private router: Router) { }
 
@@ -32,6 +42,10 @@ export class ProjectDetailsComponent implements OnInit {
 
   toggleFunctionalityForm() {
     this.showFunctionalityForm = !this.showFunctionalityForm;
+  }
+
+  toggleEditFunctionalityForm() {
+    this.showEditFunctionalityForm = !this.showEditFunctionalityForm;
   }
 
   createFunctionality() {
@@ -62,6 +76,36 @@ export class ProjectDetailsComponent implements OnInit {
         this.projectService.updateFunctionality(projectId, this.functionalities);
       }
     }
+  }
+
+  editFunctionalityModal(functionality: Functionality) {
+    this.editFunctionality = Object.assign({}, functionality);
+    this.showEditFunctionalityForm = true;
+  }
+
+  saveEditedFunctionality() {
+    if (this.editFunctionality && this.project) {
+      const functionalityIndex = this.functionalities.findIndex(func => func.id === this.editFunctionality!.id);
+      if (functionalityIndex !== -1) {
+        this.functionalities[functionalityIndex] = this.editFunctionality;
+        this.projectService.updateFunctionality(this.project.id, this.functionalities);
+        this.cancelEditFunctionality();
+        this.showEditFunctionalityForm = false;
+      }
+    }
+  }
+
+  cancelEditFunctionality() {
+    this.editFunctionality = {
+      id: 0,
+      name: '',
+      description: '',
+      priority: 0,
+      projectId: 0,
+      owner: '',
+      state: ''
+    };
+    this.showFunctionalityForm = false;
   }
 
   getFunctionalities() {
