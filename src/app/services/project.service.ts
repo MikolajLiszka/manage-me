@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Project } from '../models/project.model';
 import { Functionality } from '../models/functionality.model';
+import { Task, TaskStatus } from '../models/task.model';
 
 @Injectable({
   providedIn: 'root'
@@ -65,17 +66,6 @@ export class ProjectService {
     this.router.navigate(['/functionality-details', functionalityId]);
   }
 
-  // generateUniqueId(): number {
-  //   this.projectIdCounter++;
-  //   const projects = this.getAllProjects();
-  
-  //   let uniqueId = this.projectIdCounter;
-  //   while (projects.some(project => project.id === uniqueId)) {
-  //     uniqueId++;
-  //   }
-  //   return uniqueId;
-  // }
-
   generateUniqueId(): number {
     const timestamp = new Date().getTime();
     const random = Math.floor(Math.random() * 1000);
@@ -137,5 +127,67 @@ export class ProjectService {
     return project ? project.functionalities : [];
   }
 
+  addTask(projectId: number, functionalityId: number, task: Task): void {
+    const project = this.getProjectById(projectId);
+    if (project) {
+      const functionality = project.functionalities.find(func => func.id === functionalityId);
+      if (functionality) {
+        task.id = this.generateUniqueId();
+        functionality.tasks.push(task);
+        this.saveProjectsToLocalStorage(this.projects);
+      }
+    }
+  }
+
+  deleteTask(projectId: number, functionalityId: number, taskId: number): void {
+    const project = this.getProjectById(projectId);
+    if (project) {
+      const functionality = project.functionalities.find(func => func.id === functionalityId);
+      if (functionality) {
+        functionality.tasks = functionality.tasks.filter(task => task.id !== taskId);
+        this.saveProjectsToLocalStorage(this.projects);
+      }
+    }
+  }
+
+  updateTaskStatus(projectId: number, functionalityId: number, taskId: number, status: TaskStatus): void {
+    const project = this.getProjectById(projectId);
+    if (project) {
+      const functionality = project.functionalities.find(func => func.id === functionalityId);
+      if (functionality) {
+        const task = functionality.tasks.find(task => task.id === taskId);
+        if (task) {
+          task.status = status;
+          this.saveProjectsToLocalStorage(this.projects);
+        }
+      }
+    }
+  }
+
+  editTask(projectId: number, functionalityId: number, task: Task): void {
+    const project = this.getProjectById(projectId);
+    if (project) {
+      const functionality = project.functionalities.find(func => func.id === functionalityId);
+      if (functionality) {
+        const taskIndex = functionality.tasks.findIndex(t => t.id === task.id);
+        if (taskIndex !== -1) {
+          functionality.tasks[taskIndex] = task;
+          this.saveProjectsToLocalStorage(this.projects);
+        }
+      }
+    }
+  }
+
+  getTasks(projectId: number, functionalityId: number): Task[] {
+    const project = this.getProjectById(projectId);
+    if (project) {
+      const functionality = project.functionalities.find(func => func.id === functionalityId);
+      if (functionality) {
+        return functionality.tasks;
+      }
+    }
+    return [];
+  }
 }
+
 
