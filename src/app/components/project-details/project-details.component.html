@@ -70,8 +70,9 @@
         <td>{{ functionality.owner }}</td>
         <td>{{ functionality.state }}</td>
         <td>
-          <button (click)="editFunctionalityModal(functionality)">Edit</button>
           <button (click)="deleteFunctionality(project.id, functionality.id)">Delete</button>
+          <button (click)="editFunctionalityModal(functionality)">Edit</button>
+          <button (click)="functionalityDetails(functionality.id)">Details</button>
         </td>
       </tr>
     </tbody>

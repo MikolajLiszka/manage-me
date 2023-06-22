@@ -24,7 +24,8 @@ export class ProjectDetailsComponent implements OnInit {
     priority: 0,
     projectId: 0,
     owner: '',
-    state: ''
+    state: '',
+    tasks: []
   };
 
   constructor(private route: ActivatedRoute, private projectService: ProjectService, private router: Router) { }
@@ -103,17 +104,18 @@ export class ProjectDetailsComponent implements OnInit {
       priority: 0,
       projectId: 0,
       owner: '',
-      state: ''
+      state: '',
+      tasks: []
     };
     this.showFunctionalityForm = false;
   }
 
-  getFunctionalities() {
-    this.functionalities = this.projectService.getFunctionalitiesByProject(this.projectName);
+  functionalityDetails(functionalityId: number) {
+    this.projectService.functionalityDetails(functionalityId);
   }
 
-  projectDetails(projectId: number): void {
-    this.projectService.projectDetails(projectId);
+  getFunctionalities() {
+    this.functionalities = this.projectService.getFunctionalitiesByProject(this.projectName);
   }
 
   goBack() {

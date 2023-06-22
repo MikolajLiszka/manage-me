@@ -61,6 +61,10 @@ export class ProjectService {
     this.router.navigate(['/project-details', projectId]);
   }
 
+  functionalityDetails(functionalityId: number): void {
+    this.router.navigate(['/functionality-details', functionalityId]);
+  }
+
   generateUniqueId(): number {
     this.projectIdCounter++;
     const projects = this.getAllProjects();
@@ -110,7 +114,6 @@ export class ProjectService {
       }
     }
   }
-  
 
   saveProjectsToLocalStorage(projects: Project[]): void {
     localStorage.setItem('projects', JSON.stringify(projects));

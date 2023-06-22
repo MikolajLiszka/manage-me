@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { BtnCreateNewProjComponent } from './components/btn-create-new-proj/btn-create-new-proj.component';
 import { NewProjectsComponent } from './components/new-projects/new-projects.component';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
+import { TasksComponent } from './components/tasks/tasks.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BtnCreateNewProjComponent,
     NewProjectsComponent,
-    ProjectDetailsComponent
+    ProjectDetailsComponent,
+    TasksComponent,
   ],
   imports: [
     BrowserModule,
