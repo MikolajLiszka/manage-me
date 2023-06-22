@@ -84,24 +84,22 @@ export class ProjectService {
     }
   }
 
-  // deleteFuncionality(projectId: number, functionalityId: number): void {
-  //   const project = this.getProjectById(projectId);
-  //   if (project) {
-  //     project.functionalities = project.functionalities.filter(func => func.id !== functionalityId);
-  //     this.saveProjectsToLocalStorage();
-  //   }
-  // }
-
-  // updateFuncionality(projectId: number, functionality: Funcionality): void {
-  //   const project = this.getProjectById(projectId);
-  //   if (project) {
-  //     const index = project.functionalities.findIndex(func => func.id === functionality.id);
-  //     if (index !== -1) {
-  //       project.functionalities[index] = functionality;
-  //       this.saveProjectsToLocalStorage();
-  //     }
-  //   }
-  // }
+  deleteFunctionality(projectId: number, functionalityId: number): void {
+    const project = this.getProjectById(projectId);
+    if (project) {
+      project.functionalities = project.functionalities.filter(func => func.id !== functionalityId);
+      this.saveProjectsToLocalStorage(this.projects);
+    }
+  }
+  
+  updateFunctionality(projectId: number, functionalities: Functionality[]): void {
+    const project = this.getProjectById(projectId);
+    if (project) {
+      project.functionalities = functionalities;
+      this.saveProjectsToLocalStorage(this.projects);
+    }
+  }
+  
 
   saveProjectsToLocalStorage(projects: Project[]): void {
     localStorage.setItem('projects', JSON.stringify(projects));

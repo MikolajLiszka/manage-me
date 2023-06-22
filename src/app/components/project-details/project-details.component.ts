@@ -44,6 +44,26 @@ export class ProjectDetailsComponent implements OnInit {
     }
   }
 
+  deleteFunctionality(projectId: number, functionalityId: number): void {
+    if (this.project) {
+      const functionalityIndex = this.functionalities.findIndex(func => func.id === functionalityId);
+      if (functionalityIndex !== -1) {
+        this.functionalities.splice(functionalityIndex, 1);
+        this.projectService.updateFunctionality(projectId, this.functionalities);
+      }
+    }
+  }
+  
+  updateFunctionality(projectId: number, functionality: Functionality): void {
+    if (this.project) {
+      const functionalityIndex = this.functionalities.findIndex(func => func.id === functionality.id);
+      if (functionalityIndex !== -1) {
+        this.functionalities[functionalityIndex] = functionality;
+        this.projectService.updateFunctionality(projectId, this.functionalities);
+      }
+    }
+  }
+
   getFunctionalities() {
     this.functionalities = this.projectService.getFunctionalitiesByProject(this.projectName);
   }

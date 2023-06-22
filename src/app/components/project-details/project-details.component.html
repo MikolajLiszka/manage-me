@@ -21,7 +21,18 @@
     </label>
     <label>
       Priority:
-      <input type="text" [(ngModel)]="newFunctionality.priority" name="priority" required>
+      <select [(ngModel)]="newFunctionality.priority" name="priority" required>
+        <option value=1>1</option>
+        <option value=2>2</option>
+        <option value=3>3</option>
+        <option value=4>4</option>
+        <option value=5>5</option>
+        <option value=6>6</option>
+        <option value=7>7</option>
+        <option value=8>8</option>
+        <option value=9>9</option>
+        <option value=10>10</option>
+      </select>
     </label>
     <label>
       Owner:
@@ -56,6 +67,9 @@
         <td>{{ functionality.priority }}</td>
         <td>{{ functionality.owner }}</td>
         <td>{{ functionality.state }}</td>
+        <td>
+          <button (click)="deleteFunctionality(project.id, functionality.id)">Delete</button>
+        </td>
       </tr>
     </tbody>
   </table>
