@@ -149,7 +149,6 @@ export class ProjectDetailsComponent implements OnInit {
     this.router.navigate(['/projects']);
   }
 
-  // Function to get functionalities by state
   getFunctionalitiesByState(state: string): Functionality[] {
     return this.functionalities.filter(func => func.state === state);
   }
