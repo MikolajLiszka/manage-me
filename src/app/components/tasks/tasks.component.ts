@@ -1,13 +1,3 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-tasks',
-//   templateUrl: './tasks.component.html',
-//   styleUrls: ['./tasks.component.scss']
-// })
-// export class TasksComponent {
-
-// }
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,8 +10,8 @@ import { ProjectService } from 'src/app/services/project.service';
   styleUrls: ['./tasks.component.scss']
 })
 export class TaskComponent implements OnInit {
-  projectId!: number;
-  functionalityId!: number;
+  projectId!: string;
+  functionalityId!: string;
   tasks: Task[] = [];
   newTask: Task = new Task();
 
@@ -31,34 +21,19 @@ export class TaskComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.projectId = +params['projectId'];
-      this.functionalityId = +params['functionalityId'];
-      this.tasks = this.projectService.getTasks(this.projectId, this.functionalityId);
-    });
-  }
+  ngOnInit() {  }
 
-  addTask(): void {
-    this.projectService.addTask(this.projectId, this.functionalityId, this.newTask);
+  createTask(taskName: string) {
+    const task: Task = new Task();
+    task.name = taskName;
+    task.functionalityId = Number(this.functionalityId);
+  
+    this.tasks.push(task);
+  
     this.newTask = new Task();
+    console.log(task);
   }
 
-
-  deleteTask(taskId: number): void {
-    this.projectService.deleteTask(this.projectId, this.functionalityId, taskId);
-  }
-
-  updateTaskStatus(taskId: number, status: TaskStatus): void {
-    this.projectService.updateTaskStatus(this.projectId, this.functionalityId, taskId, status);
-  }
-
-  editTask(task: Task): void {
-    this.projectService.editTask(this.projectId, this.functionalityId, task);
-  }
-
-  goBack() {
-    this.router.navigate(['/projects']);
-  }
+  
 }
 

@@ -118,15 +118,6 @@ export class ProjectService {
     }
   }
 
-  saveProjectsToLocalStorage(projects: Project[]): void {
-    localStorage.setItem('projects', JSON.stringify(projects));
-  }
-
-  getFunctionalitiesByProject(projectName: string): Functionality[] {
-    const project = this.projects.find(project => project.name === projectName);
-    return project ? project.functionalities : [];
-  }
-
   addTask(projectId: number, functionalityId: number, task: Task): void {
     const project = this.getProjectById(projectId);
     if (project) {
@@ -139,46 +130,7 @@ export class ProjectService {
     }
   }
 
-  deleteTask(projectId: number, functionalityId: number, taskId: number): void {
-    const project = this.getProjectById(projectId);
-    if (project) {
-      const functionality = project.functionalities.find(func => func.id === functionalityId);
-      if (functionality) {
-        functionality.tasks = functionality.tasks.filter(task => task.id !== taskId);
-        this.saveProjectsToLocalStorage(this.projects);
-      }
-    }
-  }
-
-  updateTaskStatus(projectId: number, functionalityId: number, taskId: number, status: TaskStatus): void {
-    const project = this.getProjectById(projectId);
-    if (project) {
-      const functionality = project.functionalities.find(func => func.id === functionalityId);
-      if (functionality) {
-        const task = functionality.tasks.find(task => task.id === taskId);
-        if (task) {
-          task.status = status;
-          this.saveProjectsToLocalStorage(this.projects);
-        }
-      }
-    }
-  }
-
-  editTask(projectId: number, functionalityId: number, task: Task): void {
-    const project = this.getProjectById(projectId);
-    if (project) {
-      const functionality = project.functionalities.find(func => func.id === functionalityId);
-      if (functionality) {
-        const taskIndex = functionality.tasks.findIndex(t => t.id === task.id);
-        if (taskIndex !== -1) {
-          functionality.tasks[taskIndex] = task;
-          this.saveProjectsToLocalStorage(this.projects);
-        }
-      }
-    }
-  }
-
-  getTasks(projectId: number, functionalityId: number): Task[] {
+  getTasksByFunctionality(projectId: number, functionalityId: number): Task[] {
     const project = this.getProjectById(projectId);
     if (project) {
       const functionality = project.functionalities.find(func => func.id === functionalityId);
@@ -188,6 +140,20 @@ export class ProjectService {
     }
     return [];
   }
+
+  saveProjectsToLocalStorage(projects: Project[]): void {
+    localStorage.setItem('projects', JSON.stringify(projects));
+  }
+
+  getFunctionalitiesByProject(projectName: string): Functionality[] {
+    const project = this.projects.find(project => project.name === projectName);
+    return project ? project.functionalities : [];
+  }
+
+  goBackToProjectDetails(projectId: number): void {
+    this.router.navigate(['project-details', projectId]);
+  }
+
 }
 
 

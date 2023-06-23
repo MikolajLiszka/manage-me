@@ -1,98 +1,29 @@
 
-<h2>Project Details</h2>
-
-<div *ngIf="project">
-  <div>
-    <h3>{{ project.name }}</h3>
-    <p>{{ project.description }}</p>
-  </div>
-
-  <button (click)="toggleFunctionalityForm()">Create new functionality</button>
-
-  <form *ngIf="showFunctionalityForm" (ngSubmit)="createFunctionality()">
-    <h3>Create Functionality</h3>
-    <label>
-      Name:
-      <input type="text" [(ngModel)]="newFunctionality.name" name="name" required>
-    </label>
-    <br>
-    <label>
-      Description:
-      <textarea [(ngModel)]="newFunctionality.description" name="description" required></textarea>
-    </label>
-    <label>
-      Priority:
-      <select [(ngModel)]="newFunctionality.priority" name="priority" required>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-      </select>
-    </label>
-    <label>
-      Owner:
-      <input type="text" [(ngModel)]="newFunctionality.owner" name="owner" required>
-    </label>
-    <label>
-      State:
-      <select [(ngModel)]="newFunctionality.state" name="state" required>
-        <option value="todo">Todo</option>
-        <option value="doing">Doing</option>
-        <option value="done">Done</option>
-      </select>
-    </label>
-    <br>
-    <button type="submit">Create</button>
-  </form>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Priority</th>
-        <th>Owner</th>
-        <th>State</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let functionality of functionalities">
-        <td>{{ functionality.name }}</td>
-        <td>{{ functionality.description }}</td>
-        <td>{{ functionality.priority }}</td>
-        <td>{{ functionality.owner }}</td>
-        <td>{{ functionality.state }}</td>
-        <td>
-          <button (click)="deleteFunctionality(project.id, functionality.id)">Delete</button>
-          <button (click)="editFunctionalityModal(functionality)">Edit</button>
-          <button (click)="functionalityDetails(functionality.id)">Details</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div *ngIf="showEditFunctionalityForm">
-    <h3>Edit Functionality</h3>
-    <form (ngSubmit)="saveEditedFunctionality()">
+<div class="container">
+  <div *ngIf="project" class="project-details-container">
+    <div>
+      <h3 class="project-name">Nazwa projektu: {{ project.name }}</h3>
+      <p class="project-description">Opis projektu: {{ project.description }}</p>
+    </div>
+  
+    <div class="functionality-btn">
+      <button class="create-functionality-btn" (click)="toggleFunctionalityForm()">Create new functionality</button>
+    </div>
+  
+    <form *ngIf="showFunctionalityForm" (ngSubmit)="createFunctionality()" class="functionality-form">
+      <h3 class="form-heading">Create Functionality</h3>
       <label>
-        Name:
-        <input type="text" [(ngModel)]="editFunctionality.name" name="name" required>
+        Nazwa funkcjonalności:
+        <input type="text" [(ngModel)]="newFunctionality.name" name="name" required>
       </label>
       <br>
       <label>
-        Description:
-        <textarea [(ngModel)]="editFunctionality.description" name="description" required></textarea>
+        Opis:
+        <textarea [(ngModel)]="newFunctionality.description" name="description" required></textarea>
       </label>
       <label>
-        Priority:
-        <select [(ngModel)]="editFunctionality.priority" name="priority" required>
+        Priorytet:
+        <select [(ngModel)]="newFunctionality.priority" name="priority" required>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -106,22 +37,85 @@
         </select>
       </label>
       <label>
-        Owner:
-        <input type="text" [(ngModel)]="editFunctionality.owner" name="owner" required>
+        Właściciel:
+        <input type="text" [(ngModel)]="newFunctionality.owner" name="owner" required>
       </label>
       <label>
-        State:
-        <select [(ngModel)]="editFunctionality.state" name="state" required>
+        Stan:
+        <select [(ngModel)]="newFunctionality.state" name="state" required>
           <option value="todo">Todo</option>
           <option value="doing">Doing</option>
           <option value="done">Done</option>
         </select>
       </label>
       <br>
-      <button type="submit">Save</button>
-      <button type="button" (click)="cancelEditFunctionality()">Cancel</button>
+      <button type="submit" class="create-btn">Utwórz</button>
     </form>
+  
+    <div class="functionality-list">
+      <div *ngFor="let functionality of functionalities" class="functionality-item">
+        <div class="functionality-info">
+          <h3 class="functionality-name">Nazwa funkcjonalności: {{ functionality.name }}</h3>
+          <p class="functionality-description">Opis: {{ functionality.description }}</p>
+            <p class="functionality-priority">Priorytet: {{ functionality.priority }}</p>
+            <p class="functionality-owner">Właściciel: {{ functionality.owner }}</p>
+             <p class="functionality-state">Stan: {{ functionality.state }}</p>
+        </div>
+        <div class="functionality-actions">
+          <button (click)="deleteFunctionality(project.id, functionality.id)" class="action-btn delete">Usuń</button>
+          <button (click)="functionalityDetails(functionality.id)" class="action-btn details">Szczegóły</button>
+          <button (click)="editFunctionalityModal(functionality)" class="action-btn edit">Edytuj</button>
+        </div>
+      </div>
+    </div>
+    
+  
+    <div *ngIf="showEditFunctionalityForm" class="edit-functionality-form">
+      <h3 class="form-heading">Edit Functionality</h3>
+      <form (ngSubmit)="saveEditedFunctionality()">
+        <label>
+          Nazwa funkcjonalności:
+          <input type="text" [(ngModel)]="editFunctionality.name" name="name" required>
+        </label>
+        <br>
+        <label>
+          Opis:
+          <textarea [(ngModel)]="editFunctionality.description" name="description" required></textarea>
+        </label>
+        <label>
+          Priorytet:
+          <select [(ngModel)]="editFunctionality.priority" name="priority" required>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+        </label>
+        <label>
+          Właściciel:
+          <input type="text" [(ngModel)]="editFunctionality.owner" name="owner" required>
+        </label>
+        <label>
+          Stan:
+          <select [(ngModel)]="editFunctionality.state" name="state" required>
+            <option value="todo">Todo</option>
+            <option value="doing">Doing</option>
+            <option value="done">Done</option>
+          </select>
+        </label>
+        <br>
+        <button type="submit" class="save-btn">Zapisz</button>
+        <button type="button" (click)="cancelEditFunctionality()" class="cancel-btn">Anuluj</button>
+      </form>
+    </div>
+  
+    <button (click)="goBack()" class="back-btn">Powrót do projektów</button>
   </div>
-
-  <button (click)="goBack()">Back to Projects</button>
 </div>
+

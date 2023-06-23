@@ -5,11 +5,12 @@ import { NewProjectsComponent } from './components/new-projects/new-projects.com
 import { TaskComponent } from './components/tasks/tasks.component';
 
 const routes: Routes = [
-  // { path: 'project-details/:id', component: ProjectDetailsComponent },
   { path: '', redirectTo: '/projects', pathMatch: 'full' },
   { path: 'projects', component: NewProjectsComponent },
   { path: 'project-details/:id', component: ProjectDetailsComponent },
-  { path: 'functionality-details/:id', component: TaskComponent},
+  { path: 'project-details/:id', component: ProjectDetailsComponent},
+  { path: 'project-details/:projectId/functionality/:functionalityId/tasks', component: TaskComponent},
+
 ];
 
 @NgModule({
