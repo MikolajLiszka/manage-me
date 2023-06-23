@@ -1,13 +1,67 @@
-
 <div class="container">
   <div *ngIf="project" class="project-details-container">
     <div>
       <h3 class="project-name">Nazwa projektu: {{ project.name }}</h3>
       <p class="project-description">Opis projektu: {{ project.description }}</p>
     </div>
-  
+
+    <div class="functionality-list">
+      <div class="kanban-column">
+        <h4 class="column-heading">Todo</h4>
+        <div *ngFor="let functionality of getFunctionalitiesByState('todo')" class="functionality-item">
+          <div class="functionality-info">
+            <h3 class="functionality-name">Nazwa funkcjonalności: {{ functionality.name }}</h3>
+            <p class="functionality-description">Opis: {{ functionality.description }}</p>
+            <p class="functionality-priority">Priorytet: {{ functionality.priority }}</p>
+            <p class="functionality-owner">Właściciel: {{ functionality.owner }}</p>
+            <p class="functionality-state">Stan: {{ functionality.state }}</p>
+          </div>
+          <div class="functionality-actions">
+            <button (click)="deleteFunctionality(project.id, functionality.id)" class="action-btn delete">Usuń</button>
+            <button (click)="functionalityDetails(functionality.id)" class="action-btn details">Szczegóły</button>
+            <button (click)="editFunctionalityModal(functionality)" class="action-btn edit">Edytuj</button>
+          </div>
+        </div>
+      </div>
+      <div class="kanban-column">
+        <h4 class="column-heading">Doing</h4>
+        <div *ngFor="let functionality of getFunctionalitiesByState('doing')" class="functionality-item">
+          <div class="functionality-info">
+            <h3 class="functionality-name">Nazwa funkcjonalności: {{ functionality.name }}</h3>
+            <p class="functionality-description">Opis: {{ functionality.description }}</p>
+            <p class="functionality-priority">Priorytet: {{ functionality.priority }}</p>
+            <p class="functionality-owner">Właściciel: {{ functionality.owner }}</p>
+            <p class="functionality-state">Stan: {{ functionality.state }}</p>
+          </div>
+          <div class="functionality-actions">
+            <button (click)="deleteFunctionality(project.id, functionality.id)" class="action-btn delete">Usuń</button>
+            <button (click)="functionalityDetails(functionality.id)" class="action-btn details">Szczegóły</button>
+            <button (click)="editFunctionalityModal(functionality)" class="action-btn edit">Edytuj</button>
+          </div>
+        </div>
+      </div>
+      <div class="kanban-column">
+        <h4 class="column-heading">Done</h4>
+        <div *ngFor="let functionality of getFunctionalitiesByState('done')" class="functionality-item">
+          <div class="functionality-info">
+            <h3 class="functionality-name">Nazwa funkcjonalności: {{ functionality.name }}</h3>
+            <p class="functionality-description">Opis: {{ functionality.description }}</p>
+            <p class="functionality-priority">Priorytet: {{ functionality.priority }}</p>
+            <p class="functionality-owner">Właściciel: {{ functionality.owner }}</p>
+            <p class="functionality-state">Stan: {{ functionality.state }}</p>
+          </div>
+          <div class="functionality-actions">
+            <button (click)="deleteFunctionality(project.id, functionality.id)" class="action-btn delete">Usuń</button>
+            <button (click)="functionalityDetails(functionality.id)" class="action-btn details">Szczegóły</button>
+            <button (click)="editFunctionalityModal(functionality)" class="action-btn edit">Edytuj</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div class="functionality-btn">
       <button class="create-functionality-btn" (click)="toggleFunctionalityForm()">Stwórz nową funkcjonalność</button>
+      <button (click)="goBack()" class="back-btn">Powrót</button>
     </div>
   
     <form *ngIf="showFunctionalityForm" (ngSubmit)="createFunctionality()" class="functionality-form">
@@ -51,27 +105,9 @@
       <br>
       <button type="submit" class="create-btn">Utwórz</button>
     </form>
-  
-    <div class="functionality-list">
-      <div *ngFor="let functionality of functionalities" class="functionality-item">
-        <div class="functionality-info">
-          <h3 class="functionality-name">Nazwa funkcjonalności: {{ functionality.name }}</h3>
-          <p class="functionality-description">Opis: {{ functionality.description }}</p>
-            <p class="functionality-priority">Priorytet: {{ functionality.priority }}</p>
-            <p class="functionality-owner">Właściciel: {{ functionality.owner }}</p>
-             <p class="functionality-state">Stan: {{ functionality.state }}</p>
-        </div>
-        <div class="functionality-actions">
-          <button (click)="deleteFunctionality(project.id, functionality.id)" class="action-btn delete">Usuń</button>
-          <button (click)="functionalityDetails(functionality.id)" class="action-btn details">Szczegóły</button>
-          <button (click)="editFunctionalityModal(functionality)" class="action-btn edit">Edytuj</button>
-        </div>
-      </div>
-    </div>
     
-  
     <div *ngIf="showEditFunctionalityForm" class="edit-functionality-form">
-      <h3 class="form-heading">Edit Functionality</h3>
+      <h3 class="form-heading">Edytuj funkcjonalność</h3>
       <form (ngSubmit)="saveEditedFunctionality()">
         <label>
           Nazwa funkcjonalności:
@@ -111,11 +147,8 @@
         </label>
         <br>
         <button type="submit" class="save-btn">Zapisz</button>
-        <button type="button" (click)="cancelEditFunctionality()" class="cancel-btn">Anuluj</button>
+        <button (click)="cancelEditFunctionality()" class="cancel-btn">Anuluj</button>
       </form>
     </div>
-  
-    <button (click)="goBack()" class="back-btn">Powrót do projektów</button>
   </div>
 </div>
-

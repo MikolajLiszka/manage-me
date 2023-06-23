@@ -28,7 +28,11 @@ export class ProjectDetailsComponent implements OnInit {
     tasks: []
   };
 
-  constructor(private route: ActivatedRoute, private projectService: ProjectService, private router: Router) { }
+  constructor(
+    private route: ActivatedRoute,
+    private projectService: ProjectService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -41,6 +45,11 @@ export class ProjectDetailsComponent implements OnInit {
     });
   }
 
+  updateFunctionalityState(functionality: Functionality, newState: string): void {
+    functionality.state = newState;
+    this.updateFunctionality(this.project!.id, functionality);
+  }
+
   toggleFunctionalityForm() {
     this.showFunctionalityForm = !this.showFunctionalityForm;
   }
@@ -50,18 +59,27 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   createFunctionality() {
-    if (this.project && this.newFunctionality.name && this.newFunctionality.description) {
+    if (
+      this.project &&
+      this.newFunctionality.name &&
+      this.newFunctionality.description
+    ) {
       this.newFunctionality.projectId = this.project.id;
-      this.projectService.addFunctionalityToProject(this.projectName, this.newFunctionality);
+      this.projectService.addFunctionalityToProject(
+        this.projectName,
+        this.newFunctionality
+      );
       this.newFunctionality = new Functionality();
       this.showFunctionalityForm = false;
-      this.getFunctionalities(); 
+      this.getFunctionalities();
     }
   }
 
   deleteFunctionality(projectId: number, functionalityId: number): void {
     if (this.project) {
-      const functionalityIndex = this.functionalities.findIndex(func => func.id === functionalityId);
+      const functionalityIndex = this.functionalities.findIndex(
+        func => func.id === functionalityId
+      );
       if (functionalityIndex !== -1) {
         this.functionalities.splice(functionalityIndex, 1);
         this.projectService.updateFunctionality(projectId, this.functionalities);
@@ -69,10 +87,11 @@ export class ProjectDetailsComponent implements OnInit {
     }
   }
 
-  
   updateFunctionality(projectId: number, functionality: Functionality): void {
     if (this.project) {
-      const functionalityIndex = this.functionalities.findIndex(func => func.id === functionality.id);
+      const functionalityIndex = this.functionalities.findIndex(
+        func => func.id === functionality.id
+      );
       if (functionalityIndex !== -1) {
         this.functionalities[functionalityIndex] = functionality;
         this.projectService.updateFunctionality(projectId, this.functionalities);
@@ -87,16 +106,20 @@ export class ProjectDetailsComponent implements OnInit {
 
   saveEditedFunctionality() {
     if (this.editFunctionality && this.project) {
-      const functionalityIndex = this.functionalities.findIndex(func => func.id === this.editFunctionality!.id);
+      const functionalityIndex = this.functionalities.findIndex(
+        func => func.id === this.editFunctionality!.id
+      );
       if (functionalityIndex !== -1) {
         this.functionalities[functionalityIndex] = this.editFunctionality;
-        this.projectService.updateFunctionality(this.project.id, this.functionalities);
+        this.projectService.updateFunctionality(
+          this.project.id,
+          this.functionalities
+        );
         this.cancelEditFunctionality();
         this.showEditFunctionalityForm = false;
       }
     }
   }
-
 
   cancelEditFunctionality() {
     this.editFunctionality = {
@@ -117,10 +140,17 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   getFunctionalities() {
-    this.functionalities = this.projectService.getFunctionalitiesByProject(this.projectName);
+    this.functionalities = this.projectService.getFunctionalitiesByProject(
+      this.projectName
+    );
   }
 
   goBack() {
     this.router.navigate(['/projects']);
+  }
+
+  // Function to get functionalities by state
+  getFunctionalitiesByState(state: string): Functionality[] {
+    return this.functionalities.filter(func => func.state === state);
   }
 }
