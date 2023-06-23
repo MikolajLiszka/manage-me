@@ -7,11 +7,11 @@
     </div>
   
     <div class="functionality-btn">
-      <button class="create-functionality-btn" (click)="toggleFunctionalityForm()">Create new functionality</button>
+      <button class="create-functionality-btn" (click)="toggleFunctionalityForm()">Stwórz nową funkcjonalność</button>
     </div>
   
     <form *ngIf="showFunctionalityForm" (ngSubmit)="createFunctionality()" class="functionality-form">
-      <h3 class="form-heading">Create Functionality</h3>
+      <h3 class="form-heading">Stwórz nową funkcjonalność</h3>
       <label>
         Nazwa funkcjonalności:
         <input type="text" [(ngModel)]="newFunctionality.name" name="name" required>

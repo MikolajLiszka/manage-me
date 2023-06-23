@@ -1,7 +1,4 @@
-* {
-    max-width: 800px;
-    margin: 0 auto;
-}
+
 .container {
     max-width: 800px;
     margin: 0 auto;
@@ -226,7 +223,12 @@
   }
   
   .functionality-list {
-    margin-top: 20px;
+    display: grid;
+    grid-gap: 20px;
+  }
+
+  .functionality-item:hover {
+    transform: translateY(-5px);
   }
   
   .functionality-item {
